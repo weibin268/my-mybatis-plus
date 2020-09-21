@@ -15,33 +15,22 @@ import java.sql.SQLException;
  * @author zhuang
  * @create 6/2/18 10:10 PM
  * 处理格式如下的自定义标签：
- * @permission{security:user:query ? and 1=1}
+ * @env{user.userId}
  **/
-public abstract class PermissionInterceptor implements InnerInterceptor {
+public abstract class EnvTagInterceptor implements InnerInterceptor {
 
-    private CustomTagHandler permissionTagHandler = new CustomTagHandler("permission") {
+    private CustomTagHandler envTagHandler = new CustomTagHandler("env") {
         @Override
         public String handleInternal(String tagContent) {
-            String result;
-            String[] tag = tagContent.split("\\?");
-            String permissionCode = tag[0];
-            String defaultValue = tag[1];
-            String permissionExpression = getPermissionExpression(permissionCode.trim());
-            if (permissionExpression != null && !permissionExpression.isEmpty()) {
-                result = permissionExpression;
-            } else {
-                result = defaultValue;
-            }
-            return result;
+            return getEnvValue(tagContent.trim());
         }
     };
 
-    public abstract String getPermissionExpression(String permissionCode);
+    public abstract String getEnvValue(String envName);
 
     @Override
     public void beforeQuery(Executor executor, MappedStatement ms, Object parameter, RowBounds rowBounds, ResultHandler resultHandler, BoundSql boundSql) throws SQLException {
         PluginUtils.MPBoundSql mpBoundSql = PluginUtils.mpBoundSql(boundSql);
-        mpBoundSql.sql(permissionTagHandler.handle(boundSql.getSql()));
+        mpBoundSql.sql(envTagHandler.handle(boundSql.getSql()));
     }
-
 }

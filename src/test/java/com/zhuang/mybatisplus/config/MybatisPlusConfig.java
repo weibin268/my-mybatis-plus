@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.autoconfigure.ConfigurationCustomizer;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
-import com.zhuang.mybatisplus.interceptor.EnvInterceptor;
+import com.zhuang.mybatisplus.interceptor.EnvTagInterceptor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,7 +20,7 @@ public class MybatisPlusConfig {
     public MybatisPlusInterceptor mybatisPlusInterceptor() {
         MybatisPlusInterceptor interceptor = new MybatisPlusInterceptor();
         interceptor.addInnerInterceptor(new PaginationInnerInterceptor(DbType.MYSQL));
-        interceptor.addInnerInterceptor(envInterceptor());
+        interceptor.addInnerInterceptor(envTagInterceptor());
         return interceptor;
     }
 
@@ -30,8 +30,8 @@ public class MybatisPlusConfig {
     }
 
     @Bean
-    public EnvInterceptor envInterceptor() {
-        return new EnvInterceptor() {
+    public EnvTagInterceptor envTagInterceptor() {
+        return new EnvTagInterceptor() {
             @Override
             public String getEnvValue(String envName) {
                 return envName.equals("user.userId") ? "zwb" : "";
