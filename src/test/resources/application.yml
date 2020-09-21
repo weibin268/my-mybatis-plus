@@ -1,0 +1,17 @@
+server:
+  port: 8808
+
+spring:
+  profiles:
+    active: dev
+  application:
+    name: my-mybatis-plus
+  datasource:
+    driverClassName: com.mysql.jdbc.Driver
+    url: jdbc:mysql://weibin268.top:3306/upms?useSSL=false&useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true
+    username: root
+    password: 2681645
+
+logging:
+  level:
+    com.zhuang.mybatisplus: debug

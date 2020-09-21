@@ -6,6 +6,7 @@ import java.util.Map;
 
 public interface BaseMapper<Entity> extends com.baomidou.mybatisplus.core.mapper.BaseMapper<Entity> {
 
-    <T>  IPage<T> selectPageVo(IPage<?> page, Map<String, Object> params);
+    <T> IPage<T> selectPageVo(IPage<?> page, Map<String, Object> params);
 
 }
+
