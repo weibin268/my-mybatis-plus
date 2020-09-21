@@ -12,7 +12,7 @@ public class UserServiceTest extends MyMybatisPlusApplicationTest {
 
     @Test
     public void test() {
-        User user = userService.getById("1");
+        User user = userService.getMapper().getCurrentUser();
         System.out.println(user);
     }
 
