@@ -20,7 +20,7 @@ import java.util.function.Function;
  **/
 public class PermissionTagInterceptor implements InnerInterceptor {
 
-    private CustomTagHandler permissionTagHandler = new CustomTagHandler("permission") {
+    protected CustomTagHandler permissionTagHandler = new CustomTagHandler("permission") {
         @Override
         public String handleInternal(String tagContent) {
             String result;
@@ -37,7 +37,7 @@ public class PermissionTagInterceptor implements InnerInterceptor {
         }
     };
 
-    private Function<String, String> getPermissionExpressionByPermissionCode;
+    protected Function<String, String> getPermissionExpressionByPermissionCode;
 
     public PermissionTagInterceptor(Function<String, String> getPermissionExpressionByPermissionCode) {
         this.getPermissionExpressionByPermissionCode = getPermissionExpressionByPermissionCode;

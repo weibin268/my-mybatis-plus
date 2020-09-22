@@ -20,14 +20,14 @@ import java.util.function.Function;
  **/
 public class EnvTagInterceptor implements InnerInterceptor {
 
-    private CustomTagHandler envTagHandler = new CustomTagHandler("env") {
+    protected CustomTagHandler envTagHandler = new CustomTagHandler("env") {
         @Override
         public String handleInternal(String tagContent) {
             return getEnvValueByEnvName.apply(tagContent.trim());
         }
     };
 
-    private Function<String, String> getEnvValueByEnvName;
+    protected Function<String, String> getEnvValueByEnvName;
 
     public EnvTagInterceptor(Function<String, String> getEnvValueByEnvName) {
         this.getEnvValueByEnvName = getEnvValueByEnvName;
