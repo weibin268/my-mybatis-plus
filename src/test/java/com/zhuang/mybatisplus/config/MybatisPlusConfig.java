@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.autoconfigure.ConfigurationCustomizer;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
 import com.zhuang.mybatisplus.interceptor.EnvTagInterceptor;
+import com.zhuang.mybatisplus.interceptor.PermissionTagInterceptor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,6 +21,7 @@ public class MybatisPlusConfig {
     public MybatisPlusInterceptor mybatisPlusInterceptor() {
         MybatisPlusInterceptor interceptor = new MybatisPlusInterceptor();
         interceptor.addInnerInterceptor(new PaginationInnerInterceptor(DbType.MYSQL));
+        interceptor.addInnerInterceptor(permissionTagInterceptor());
         interceptor.addInnerInterceptor(envTagInterceptor());
         return interceptor;
     }
@@ -34,9 +36,23 @@ public class MybatisPlusConfig {
         return new EnvTagInterceptor() {
             @Override
             public String getEnvValue(String envName) {
+                System.out.println("envName = " + envName);
                 return envName.equals("user.userId") ? "zwb" : "";
             }
         };
     }
 
+    @Bean
+    public PermissionTagInterceptor permissionTagInterceptor() {
+        return new PermissionTagInterceptor() {
+            @Override
+            public String getPermissionExpression(String permissionCode) {
+                System.out.println("permissionCode = " + permissionCode);
+                if (permissionCode.equals("user:query:all"))
+                    return " 1=1 ";
+                else
+                    return null;
+            }
+        };
+    }
 }
