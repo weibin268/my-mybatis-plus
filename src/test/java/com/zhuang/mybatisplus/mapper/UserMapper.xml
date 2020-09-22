@@ -4,6 +4,7 @@
     <select id="getCurrentUser" resultType="com.zhuang.mybatisplus.entity.User">
         select *
         from sys_user
-        where id = '@env{ user.userId}'
+        where id = '@env{user.userId}'
+        and @permission{user:query:all?1=2}
     </select>
 </mapper>
