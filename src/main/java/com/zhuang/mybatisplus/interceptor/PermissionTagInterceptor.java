@@ -10,6 +10,7 @@ import org.apache.ibatis.session.ResultHandler;
 import org.apache.ibatis.session.RowBounds;
 
 import java.sql.SQLException;
+import java.util.function.Function;
 
 /**
  * @author zhuang
@@ -17,7 +18,7 @@ import java.sql.SQLException;
  * 处理格式如下的自定义标签：
  * @permission{security:user:query ? and 1=1}
  **/
-public abstract class PermissionTagInterceptor implements InnerInterceptor {
+public class PermissionTagInterceptor implements InnerInterceptor {
 
     private CustomTagHandler permissionTagHandler = new CustomTagHandler("permission") {
         @Override
@@ -26,7 +27,7 @@ public abstract class PermissionTagInterceptor implements InnerInterceptor {
             String[] tag = tagContent.split("\\?");
             String permissionCode = tag[0];
             String defaultValue = tag[1];
-            String permissionExpression = getPermissionExpression(permissionCode.trim());
+            String permissionExpression = getPermissionExpressionByPermissionCode.apply(permissionCode.trim());
             if (permissionExpression != null && !permissionExpression.isEmpty()) {
                 result = permissionExpression;
             } else {
@@ -36,7 +37,11 @@ public abstract class PermissionTagInterceptor implements InnerInterceptor {
         }
     };
 
-    public abstract String getPermissionExpression(String permissionCode);
+    private Function<String, String> getPermissionExpressionByPermissionCode;
+
+    public PermissionTagInterceptor(Function<String, String> getPermissionExpressionByPermissionCode) {
+        this.getPermissionExpressionByPermissionCode = getPermissionExpressionByPermissionCode;
+    }
 
     @Override
     public void beforeQuery(Executor executor, MappedStatement ms, Object parameter, RowBounds rowBounds, ResultHandler resultHandler, BoundSql boundSql) throws SQLException {

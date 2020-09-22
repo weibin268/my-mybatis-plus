@@ -31,12 +31,9 @@ public class MybatisPlusConfig {
 
     @Bean
     public EnvTagInterceptor envTagInterceptor() {
-        return new EnvTagInterceptor() {
-            @Override
-            public String getEnvValue(String envName) {
-                return envName.equals("user.userId") ? "zwb" : "";
-            }
-        };
+        return new EnvTagInterceptor(envName -> {
+            return envName.equals("user.userId") ? "zwb" : "";
+        });
     }
 
 }
