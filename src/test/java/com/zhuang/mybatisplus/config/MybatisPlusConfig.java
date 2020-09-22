@@ -40,15 +40,13 @@ public class MybatisPlusConfig {
 
     @Bean
     public PermissionTagInterceptor permissionTagInterceptor() {
-        return new PermissionTagInterceptor() {
-            @Override
-            public String getPermissionExpression(String permissionCode) {
-                System.out.println("permissionCode = " + permissionCode);
-                if (permissionCode.equals("user:query:all"))
-                    return " 1=1 ";
-                else
-                    return null;
-            }
-        };
+        return new PermissionTagInterceptor(permissionCode -> {
+            System.out.println("permissionCode = " + permissionCode);
+            if (permissionCode.equals("user:query:all"))
+                return " 1=1 ";
+            else
+                return null;
+        });
     }
+
 }
