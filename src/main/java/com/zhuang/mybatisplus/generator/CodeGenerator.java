@@ -36,7 +36,7 @@ public class CodeGenerator {
     }
 
     public CodeGenerator setDsPassword(String password) {
-        autoGenerator.getDataSource().setUsername(password);
+        autoGenerator.getDataSource().setPassword(password);
         return this;
     }
 
