@@ -1,7 +1,7 @@
 package ${package.Mapper};
 
+import com.zhuang.mybatisplus.base.BaseMapper;
 import ${package.Entity}.${entity};
-import ${superMapperClassPackage};
 
 /**
  * <p>
