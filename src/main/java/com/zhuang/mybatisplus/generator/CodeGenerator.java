@@ -13,7 +13,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-// 演示例子，执行 main 方法控制台输入模块表名回车自动生成对应项目目录中
 public class CodeGenerator {
 
     private AutoGenerator autoGenerator;
@@ -79,7 +78,8 @@ public class CodeGenerator {
     public CodeGenerator(String projectPath) {
         // 代码生成器
         autoGenerator = new AutoGenerator();
-        // 全局配置
+
+        //region 全局配置
         GlobalConfig globalConfig = new GlobalConfig();
         globalConfig.setOutputDir(projectPath + "/src/main/java");
         globalConfig.setAuthor("zwb");
@@ -87,29 +87,31 @@ public class CodeGenerator {
         globalConfig.setFileOverride(true);
         //globalConfig.setSwagger2(true); 实体属性 Swagger2 注解
         autoGenerator.setGlobalConfig(globalConfig);
+        //endregion
 
-        // 数据源配置
+        //region 数据源配置
         DataSourceConfig dataSourceConfig = new DataSourceConfig();
         dataSourceConfig.setDriverName("com.mysql.jdbc.Driver");
         dataSourceConfig.setUrl("jdbc:mysql://weibin268.top:3306/cloud_system?useUnicode=true&useSSL=false&characterEncoding=utf8");
         dataSourceConfig.setUsername("root");
         dataSourceConfig.setPassword("123456");
         autoGenerator.setDataSource(dataSourceConfig);
+        //endregion
 
-        // 包配置
+        //region 包配置
         PackageConfig packageConfig = new PackageConfig();
         packageConfig.setModuleName("module1");
         packageConfig.setParent("com.zhuang.test");
         autoGenerator.setPackageInfo(packageConfig);
+        //endregion
 
-        // 自定义配置
+        //region 自定义配置
         InjectionConfig injectionConfig = new InjectionConfig() {
             @Override
             public void initMap() {
                 // to do nothing
             }
         };
-
         // 自定义输出配置
         List<FileOutConfig> fileOutConfigList = new ArrayList<>();
         // 自定义配置会被优先输出
@@ -129,15 +131,17 @@ public class CodeGenerator {
         });
         injectionConfig.setFileOutConfigList(fileOutConfigList);
         autoGenerator.setCfg(injectionConfig);
+        //endregion
 
-        // 配置模板
+        //region 配置模板
         TemplateConfig templateConfig = new TemplateConfig();
         templateConfig.setXml(null);
         templateConfig.setServiceImpl(null);
         templateConfig.setService(null);
         autoGenerator.setTemplate(templateConfig);
+        //endregion
 
-        // 策略配置
+        //region 策略配置
         StrategyConfig strategy = new StrategyConfig();
         strategy.setNaming(NamingStrategy.underline_to_camel);
         strategy.setColumnNaming(NamingStrategy.underline_to_camel);
@@ -153,6 +157,8 @@ public class CodeGenerator {
         //strategy.setControllerMappingHyphenStyle(true);
         //strategy.setTablePrefix("sys_");
         autoGenerator.setStrategy(strategy);
+        //endregion
+
         autoGenerator.setTemplateEngine(new FreemarkerTemplateEngine());
     }
 
