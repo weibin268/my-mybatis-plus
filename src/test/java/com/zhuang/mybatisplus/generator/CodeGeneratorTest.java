@@ -12,9 +12,10 @@ public class CodeGeneratorTest {
                 .setDsUsername("root")
                 .setDsPassword("123456")
                 .setAuthorName("zwb")
-                .setModuleName("user")
                 .setBasePackage("com.zwb.test")
+                .setModuleName("user")
                 .setTableNames("sys_user")
+                .setTablePrefix("sys_")
                 .generate();
     }
 

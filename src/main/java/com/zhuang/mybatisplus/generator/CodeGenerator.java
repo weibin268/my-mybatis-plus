@@ -1,6 +1,5 @@
 package com.zhuang.mybatisplus.generator;
 
-import com.baomidou.mybatisplus.core.exceptions.MybatisPlusException;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.generator.AutoGenerator;
@@ -13,7 +12,6 @@ import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 // 演示例子，执行 main 方法控制台输入模块表名回车自动生成对应项目目录中
 public class CodeGenerator {
@@ -58,6 +56,11 @@ public class CodeGenerator {
 
     public CodeGenerator setTableNames(String tableNames) {
         autoGenerator.getStrategy().setInclude(tableNames.split(","));
+        return this;
+    }
+
+    public CodeGenerator setTablePrefix(String tablePrefix) {
+        autoGenerator.getStrategy().setTablePrefix(tablePrefix);
         return this;
     }
 
@@ -140,7 +143,7 @@ public class CodeGenerator {
         //strategy.setSuperEntityColumns("id");
         strategy.setInclude("table1");
         strategy.setControllerMappingHyphenStyle(true);
-        strategy.setTablePrefix(packageConfig.getModuleName() + "_");
+        //strategy.setTablePrefix("sys_");
         autoGenerator.setStrategy(strategy);
         autoGenerator.setTemplateEngine(new FreemarkerTemplateEngine());
     }
@@ -148,7 +151,6 @@ public class CodeGenerator {
     public void generate() {
         autoGenerator.execute();
     }
-
 
     /**
      * 连接路径字符串
