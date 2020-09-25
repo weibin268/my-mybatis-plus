@@ -16,6 +16,7 @@ public class CodeGeneratorTest {
                 .setModuleName("user")
                 .setTableNames("sys_user")
                 .setTablePrefix("sys_")
+                .setSwagger2(true)
                 .generate();
     }
 

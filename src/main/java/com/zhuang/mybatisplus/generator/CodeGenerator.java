@@ -18,6 +18,9 @@ public class CodeGenerator {
 
     private AutoGenerator autoGenerator;
 
+    public AutoGenerator getAutoGenerator() {
+        return autoGenerator;
+    }
 
     public CodeGenerator setDsDriverName(String driverName) {
         autoGenerator.getDataSource().setDriverName(driverName);
@@ -61,6 +64,11 @@ public class CodeGenerator {
 
     public CodeGenerator setTablePrefix(String tablePrefix) {
         autoGenerator.getStrategy().setTablePrefix(tablePrefix);
+        return this;
+    }
+
+    public CodeGenerator setSwagger2(boolean swagger2) {
+        autoGenerator.getGlobalConfig().setSwagger2(swagger2);
         return this;
     }
 
