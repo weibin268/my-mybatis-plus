@@ -14,7 +14,7 @@
     <packaging>jar</packaging>
     <name>my-mybatis-plus</name>
     <description>代码生成器</description>
-    <url>https://github.com/weibin268/my-excel</url>
+    <url>https://github.com/weibin268/my-mybatis-plus</url>
 
     <licenses>
         <license>
@@ -32,9 +32,9 @@
     </developers>
 
     <scm>
-        <connection>scm:git:ssh://github.com/weibin268/my-excel.git</connection>
-        <developerConnection>scm:git:ssh://git@github.com/weibin268/my-excel.git</developerConnection>
-        <url>https://github.com/weibin268/my-excel</url>
+        <connection>scm:git:ssh://github.com/weibin268/my-mybatis-plus.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com/weibin268/my-mybatis-plus.git</developerConnection>
+        <url>https://github.com/weibin268/my-mybatis-plus</url>
     </scm>
 
     <properties>
