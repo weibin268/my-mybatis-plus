@@ -71,6 +71,11 @@ public class CodeGenerator {
         return this;
     }
 
+    public CodeGenerator setRestControllerStyle(boolean restControllerStyle) {
+        autoGenerator.getStrategy().setRestControllerStyle(restControllerStyle);
+        return this;
+    }
+
     public CodeGenerator() {
         this(System.getProperty("user.dir"));
     }

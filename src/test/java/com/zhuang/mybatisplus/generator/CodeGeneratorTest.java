@@ -16,6 +16,7 @@ public class CodeGeneratorTest {
                 .setModuleName("user")
                 .setTableNames("sys_user")
                 .setTablePrefix("sys_")
+                .setRestControllerStyle(true)
                 .setSwagger2(true)
                 .generate();
     }
@@ -32,6 +33,26 @@ public class CodeGeneratorTest {
                 .setModuleName("user")
                 .setTableNames("yd_ws_water_user")
                 .setTablePrefix("yd_ws_")
+                .setRestControllerStyle(true)
+                .setSwagger2(true)
+                .generate();
+    }
+
+
+
+    @Test
+    public void generate4wms() {
+        new CodeGenerator("d://temp/codes")
+                .setDsDriverName("com.mysql.jdbc.Driver")
+                .setDsUrl("jdbc:mysql://139.9.193.226:3306/stwms_dev?useUnicode=true&useSSL=false&characterEncoding=utf8")
+                .setDsUsername("root")
+                .setDsPassword("tq@123456")
+                .setAuthorName("zwb")
+                .setBasePackage("com.zjmzxfzhl.modules")
+                .setModuleName("product")
+                .setTableNames("wms_product")
+                //.setTablePrefix("sys_")
+                .setRestControllerStyle(true)
                 .setSwagger2(true)
                 .generate();
     }
