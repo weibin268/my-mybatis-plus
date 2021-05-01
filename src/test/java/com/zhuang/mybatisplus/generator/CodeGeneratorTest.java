@@ -46,7 +46,7 @@ public class CodeGeneratorTest {
                 .setDsDriverName("com.mysql.jdbc.Driver")
                 .setDsUrl("jdbc:mysql://139.9.193.226:3306/stwms_dev?useUnicode=true&useSSL=false&characterEncoding=utf8")
                 .setDsUsername("root")
-                .setDsPassword("tq@123456")
+                .setDsPassword("123456")
                 .setAuthorName("zwb")
                 .setBasePackage("com.zjmzxfzhl.modules")
                 .setModuleName("product")
