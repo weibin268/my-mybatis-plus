@@ -11,8 +11,8 @@ public abstract class BaseService<Mapper extends BaseMapper<Entity>, Entity> ext
     @Autowired
     protected Mapper mapper;
 
-    public <T> IPage<T> pageVo(IPage<?> page, Map<String, Object> params) {
-        return mapper.selectPageVo(page, params);
+    public <T> IPage<T> getPage(IPage<?> page, Map<String, Object> params) {
+        return mapper.getPage(page, params);
     }
 
     public Mapper getMapper() {
