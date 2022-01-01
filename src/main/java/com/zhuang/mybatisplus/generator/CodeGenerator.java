@@ -105,7 +105,7 @@ public class CodeGenerator {
         private String basePackage;
         private String moduleName;
         private String superMapperClass = "com.zhuang.mybatisplus.base.BaseMapper";
-        private String superServiceClass = "com.zhuang.mybatisplus.base.ServiceMapper";
+        private String superServiceClass = "com.zhuang.mybatisplus.base.BaseService";
         private DateType dateType = DateType.ONLY_DATE;
         private Boolean open;
         private String mapperXmlDir;
