@@ -5,7 +5,11 @@ import com.baomidou.mybatisplus.generator.config.GlobalConfig;
 import com.baomidou.mybatisplus.generator.config.OutputFile;
 import com.baomidou.mybatisplus.generator.config.TemplateType;
 import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
 import org.springframework.util.StringUtils;
 
 import java.util.Collections;
@@ -86,6 +90,7 @@ public class CodeGenerator {
     }
 
     @Data
+    @Accessors(chain = true)
     public static class Config {
         private String author = "zwb";
         private Boolean swagger;
