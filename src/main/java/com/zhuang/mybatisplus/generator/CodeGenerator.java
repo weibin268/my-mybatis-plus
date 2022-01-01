@@ -1,15 +1,11 @@
 package com.zhuang.mybatisplus.generator;
 
 import com.baomidou.mybatisplus.generator.FastAutoGenerator;
-import com.baomidou.mybatisplus.generator.config.GlobalConfig;
 import com.baomidou.mybatisplus.generator.config.OutputFile;
 import com.baomidou.mybatisplus.generator.config.TemplateType;
 import com.baomidou.mybatisplus.generator.config.rules.DateType;
 import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 import org.springframework.util.StringUtils;
 
@@ -40,10 +36,10 @@ public class CodeGenerator {
                     if (!StringUtils.isEmpty(config.getAuthor())) {
                         builder.author(config.getAuthor());
                     }
-                    if (config.swagger != null && config.getSwagger()) {
+                    if (config.getSwagger() != null && config.getSwagger()) {
                         builder.enableSwagger();
                     }
-                    if (config.fileOverride != null && config.fileOverride) {
+                    if (config.getFileOverride() != null && config.getFileOverride()) {
                         builder.fileOverride();
                     }
                     if (!StringUtils.isEmpty(config.getOutputDir())) {
@@ -51,6 +47,9 @@ public class CodeGenerator {
                     }
                     if (config.getDateType() != null) {
                         builder.dateType(config.getDateType());
+                    }
+                    if (config.getOpen() != null && !config.getOpen()) {
+                        builder.disableOpenDir();
                     }
                 })
                 .packageConfig(builder -> {
@@ -108,6 +107,7 @@ public class CodeGenerator {
         private String superMapperClass = "com.zhuang.mybatisplus.base.BaseMapper";
         private String superServiceClass = "com.zhuang.mybatisplus.base.ServiceMapper";
         private DateType dateType = DateType.ONLY_DATE;
+        private Boolean open;
         private String mapperXmlDir;
     }
 }
