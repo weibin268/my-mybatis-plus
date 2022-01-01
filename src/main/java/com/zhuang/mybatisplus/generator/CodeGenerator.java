@@ -96,18 +96,18 @@ public class CodeGenerator {
     @Data
     @Accessors(chain = true)
     public static class Config {
-        private String author = "zwb";
-        private Boolean swagger;
-        private Boolean fileOverride = true;
         private String outputDir;
-        private String basePackage;
-        private String moduleName;
-        private String mapperXmlDir;
         private String tableNames;
         private String tablePrefix;
+        private String author = "zwb";
+        private Boolean swagger = false;
         private Boolean lombok = true;
+        private Boolean fileOverride = true;
+        private String basePackage;
+        private String moduleName;
         private String superMapperClass = "com.zhuang.mybatisplus.base.BaseMapper";
         private String superServiceClass = "com.zhuang.mybatisplus.base.ServiceMapper";
         private DateType dateType = DateType.ONLY_DATE;
+        private String mapperXmlDir;
     }
 }
