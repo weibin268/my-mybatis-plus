@@ -1,192 +1,103 @@
 package com.zhuang.mybatisplus.generator;
 
-import com.baomidou.mybatisplus.core.toolkit.StringPool;
-import com.baomidou.mybatisplus.core.toolkit.StringUtils;
-import com.baomidou.mybatisplus.generator.AutoGenerator;
-import com.baomidou.mybatisplus.generator.InjectionConfig;
-import com.baomidou.mybatisplus.generator.config.*;
-import com.baomidou.mybatisplus.generator.config.po.TableInfo;
-import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
+import com.baomidou.mybatisplus.generator.FastAutoGenerator;
+import com.baomidou.mybatisplus.generator.config.GlobalConfig;
+import com.baomidou.mybatisplus.generator.config.OutputFile;
+import com.baomidou.mybatisplus.generator.config.TemplateType;
 import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
+import lombok.Data;
+import org.springframework.util.StringUtils;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collections;
+import java.util.function.Consumer;
 
 public class CodeGenerator {
 
-    private AutoGenerator autoGenerator;
+    private FastAutoGenerator fastAutoGenerator;
+    private final Config config;
 
-    public AutoGenerator getAutoGenerator() {
-        return autoGenerator;
+    public CodeGenerator(String url, String username, String password) {
+        fastAutoGenerator = FastAutoGenerator.create(url, username, password);
+        config = new Config();
     }
 
-    public CodeGenerator setDsDriverName(String driverName) {
-        autoGenerator.getDataSource().setDriverName(driverName);
+    public CodeGenerator config(Consumer<Config> consumer) {
+        consumer.accept(config);
         return this;
     }
 
-    public CodeGenerator setDsUrl(String url) {
-        autoGenerator.getDataSource().setUrl(url);
-        return this;
-    }
-
-    public CodeGenerator setDsUsername(String username) {
-        autoGenerator.getDataSource().setUsername(username);
-        return this;
-    }
-
-    public CodeGenerator setDsPassword(String password) {
-        autoGenerator.getDataSource().setPassword(password);
-        return this;
-    }
-
-    public CodeGenerator setAuthorName(String authorName) {
-        autoGenerator.getGlobalConfig().setAuthor(authorName);
-        return this;
-    }
-
-    public CodeGenerator setModuleName(String moduleName) {
-        autoGenerator.getPackageInfo().setModuleName(moduleName);
-        return this;
-    }
-
-    public CodeGenerator setBasePackage(String basePackage) {
-        autoGenerator.getPackageInfo().setParent(basePackage);
-        return this;
-    }
-
-    public CodeGenerator setTableNames(String tableNames) {
-        autoGenerator.getStrategy().setInclude(tableNames.split(","));
-        return this;
-    }
-
-    public CodeGenerator setTablePrefix(String tablePrefix) {
-        autoGenerator.getStrategy().setTablePrefix(tablePrefix);
-        return this;
-    }
-
-    public CodeGenerator setSwagger2(boolean swagger2) {
-        autoGenerator.getGlobalConfig().setSwagger2(swagger2);
-        return this;
-    }
-
-    public CodeGenerator setRestControllerStyle(boolean restControllerStyle) {
-        autoGenerator.getStrategy().setRestControllerStyle(restControllerStyle);
-        return this;
-    }
-
-    public CodeGenerator() {
-        this(System.getProperty("user.dir"));
-    }
-
-    public CodeGenerator(String projectPath) {
-        // 代码生成器
-        autoGenerator = new AutoGenerator();
-
-        //region 全局配置
-        GlobalConfig globalConfig = new GlobalConfig();
-        globalConfig.setOutputDir(projectPath + "/src/main/java");
-        globalConfig.setAuthor("zwb");
-        globalConfig.setOpen(false);
-        globalConfig.setFileOverride(true);
-        //globalConfig.setSwagger2(true); 实体属性 Swagger2 注解
-        autoGenerator.setGlobalConfig(globalConfig);
-        //endregion
-
-        //region 数据源配置
-        DataSourceConfig dataSourceConfig = new DataSourceConfig();
-        dataSourceConfig.setDriverName("com.mysql.jdbc.Driver");
-        dataSourceConfig.setUrl("jdbc:mysql://weibin268.top:3306/cloud_system?useUnicode=true&useSSL=false&characterEncoding=utf8");
-        dataSourceConfig.setUsername("root");
-        dataSourceConfig.setPassword("123456");
-        autoGenerator.setDataSource(dataSourceConfig);
-        //endregion
-
-        //region 包配置
-        PackageConfig packageConfig = new PackageConfig();
-        packageConfig.setModuleName("module1");
-        packageConfig.setParent("com.zhuang.test");
-        autoGenerator.setPackageInfo(packageConfig);
-        //endregion
-
-        //region 自定义配置
-        InjectionConfig injectionConfig = new InjectionConfig() {
-            @Override
-            public void initMap() {
-                // to do nothing
-            }
-        };
-        // 自定义输出配置
-        List<FileOutConfig> fileOutConfigList = new ArrayList<>();
-        // 自定义配置会被优先输出
-        fileOutConfigList.add(new FileOutConfig("/templates/mapper.xml.ftl") {
-            @Override
-            public String outputFile(TableInfo tableInfo) {
-                // 自定义输出文件名 ， 如果你 Entity 设置了前后缀、此处注意 xml 的名称会跟着发生变化！！
-                return projectPath + joinPath("/src/main/java/", packageConfig.getParent()) + "/mapper/" + tableInfo.getEntityName() + "Mapper" + StringPool.DOT_XML;
-            }
-        });
-        fileOutConfigList.add(new FileOutConfig("/templates/service.java.ftl") {
-            @Override
-            public String outputFile(TableInfo tableInfo) {
-                // 自定义输出文件名 ， 如果你 Entity 设置了前后缀、此处注意 xml 的名称会跟着发生变化！！
-                return projectPath + joinPath("/src/main/java/", packageConfig.getParent()) + "/service/" + tableInfo.getEntityName() + "Service" + StringPool.DOT_JAVA;
-            }
-        });
-        injectionConfig.setFileOutConfigList(fileOutConfigList);
-        autoGenerator.setCfg(injectionConfig);
-        //endregion
-
-        //region 配置模板
-        TemplateConfig templateConfig = new TemplateConfig();
-        templateConfig.setXml(null);
-        templateConfig.setServiceImpl(null);
-        templateConfig.setService(null);
-        autoGenerator.setTemplate(templateConfig);
-        //endregion
-
-        //region 策略配置
-        StrategyConfig strategy = new StrategyConfig();
-        strategy.setNaming(NamingStrategy.underline_to_camel);
-        strategy.setColumnNaming(NamingStrategy.underline_to_camel);
-
-        //strategy.setSuperEntityClass("你自己的父类实体,没有就不用设置!");
-        strategy.setEntityLombokModel(true);
-        //strategy.setRestControllerStyle(true);
-        // 公共父类
-        //strategy.setSuperControllerClass("你自己的父类控制器,没有就不用设置!");
-        // 写于父类中的公共字段
-        //strategy.setSuperEntityColumns("id");
-        strategy.setInclude("table1");
-        //strategy.setControllerMappingHyphenStyle(true);
-        //strategy.setTablePrefix("sys_");
-        autoGenerator.setStrategy(strategy);
-        //endregion
-
-        autoGenerator.setTemplateEngine(new FreemarkerTemplateEngine());
+    public FastAutoGenerator getFastAutoGenerator() {
+        return fastAutoGenerator;
     }
 
     public void generate() {
-        autoGenerator.execute();
+        fastAutoGenerator.globalConfig(builder -> {
+                    if (!StringUtils.isEmpty(config.getAuthor())) {
+                        builder.author(config.getAuthor());
+                    }
+                    if (config.swagger != null && config.getSwagger()) {
+                        builder.enableSwagger();
+                    }
+                    if (config.fileOverride != null && config.fileOverride) {
+                        builder.fileOverride();
+                    }
+                    if (!StringUtils.isEmpty(config.getOutputDir())) {
+                        builder.outputDir(config.getOutputDir());
+                    }
+                })
+                .packageConfig(builder -> {
+                    if (!StringUtils.isEmpty(config.getBasePackage())) {
+                        builder.parent(config.getBasePackage());
+                    }
+                    if (!StringUtils.isEmpty(config.getModuleName())) {
+                        builder.moduleName(config.getModuleName());
+                    }
+                    if (!StringUtils.isEmpty(config.getMapperXmlDir())) {
+                        builder.pathInfo(Collections.singletonMap(OutputFile.mapperXml, config.getMapperXmlDir()));
+                    }
+                    builder.xml("mapper");
+                })
+                .strategyConfig(builder -> {
+                    if (!StringUtils.isEmpty(config.getTableNames())) {
+                        builder.addInclude(config.getTableNames().split(","));
+                    }
+                    if (!StringUtils.isEmpty(config.getTablePrefix())) {
+                        builder.addTablePrefix(config.getTablePrefix().split(","));
+                    }
+                    if (config.getLombok() != null && config.getLombok()) {
+                        builder.entityBuilder().enableLombok();
+                    }
+                    if (!StringUtils.isEmpty(config.getSuperMapperClass())) {
+                        builder.mapperBuilder().superClass(config.getSuperMapperClass());
+                    }
+                    if (!StringUtils.isEmpty(config.getSuperServiceClass())) {
+                        builder.serviceBuilder().superServiceClass(config.getSuperServiceClass());
+                    }
+                    builder.serviceBuilder().convertServiceFileName((entityName -> entityName + "Service"));
+                })
+                .injectionConfig(builder -> {
+
+                })
+                .templateEngine(new FreemarkerTemplateEngine())
+                .templateConfig(builder -> {
+                    builder.disable(TemplateType.SERVICEIMPL);
+                });
+        fastAutoGenerator.execute();
     }
 
-    /**
-     * 连接路径字符串
-     *
-     * @param parentDir   路径常量字符串
-     * @param packageName 包名
-     * @return 连接后的路径
-     */
-    public static String joinPath(String parentDir, String packageName) {
-        if (StringUtils.isBlank(parentDir)) {
-            parentDir = System.getProperty(ConstVal.JAVA_TMPDIR);
-        }
-        if (!StringUtils.endsWith(parentDir, File.separator)) {
-            parentDir += File.separator;
-        }
-        packageName = packageName.replaceAll("\\.", StringPool.BACK_SLASH + File.separator);
-        return parentDir + packageName;
+    @Data
+    public static class Config {
+        private String author = "zwb";
+        private Boolean swagger;
+        private Boolean fileOverride = true;
+        private String outputDir;
+        private String basePackage;
+        private String moduleName;
+        private String mapperXmlDir;
+        private String tableNames;
+        private String tablePrefix;
+        private Boolean lombok = true;
+        private String superMapperClass = "com.zhuang.mybatisplus.base.BaseMapper";
+        private String superServiceClass = "com.zhuang.mybatisplus.base.ServiceMapper";
     }
-
 }

@@ -3,13 +3,13 @@ package ${package.Entity};
 <#list table.importPackages as pkg>
 import ${pkg};
 </#list>
-<#if swagger2>
+<#if swagger>
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 </#if>
 <#if entityLombokModel>
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
     <#if chainModel>
 import lombok.experimental.Accessors;
     </#if>
@@ -24,31 +24,29 @@ import lombok.experimental.Accessors;
  * @since ${date}
  */
 <#if entityLombokModel>
-@Data
-    <#if superEntityClass??>
-@EqualsAndHashCode(callSuper = true)
-    <#else>
-@EqualsAndHashCode(callSuper = false)
-    </#if>
+@Getter
+@Setter
     <#if chainModel>
 @Accessors(chain = true)
     </#if>
 </#if>
 <#if table.convert>
-@TableName("${table.name}")
+@TableName("${schemaName}${table.name}")
 </#if>
-<#if swagger2>
-@ApiModel(value="${entity}对象", description="${table.comment!}")
+<#if swagger>
+@ApiModel(value = "${entity}对象", description = "${table.comment!}")
 </#if>
 <#if superEntityClass??>
 public class ${entity} extends ${superEntityClass}<#if activeRecord><${entity}></#if> {
 <#elseif activeRecord>
 public class ${entity} extends Model<${entity}> {
-<#else>
+<#elseif entitySerialVersionUID>
 public class ${entity} implements Serializable {
+<#else>
+public class ${entity} {
 </#if>
-
 <#if entitySerialVersionUID>
+
     private static final long serialVersionUID = 1L;
 </#if>
 <#-- ----------  BEGIN 字段循环遍历  ---------->
@@ -58,8 +56,8 @@ public class ${entity} implements Serializable {
     </#if>
 
     <#if field.comment!?length gt 0>
-        <#if swagger2>
-    @ApiModelProperty(value = "${field.comment}")
+        <#if swagger>
+    @ApiModelProperty("${field.comment}")
         <#else>
     /**
      * ${field.comment}
@@ -87,11 +85,11 @@ public class ${entity} implements Serializable {
     @TableField("${field.annotationColumnName}")
     </#if>
     <#-- 乐观锁注解 -->
-    <#if (versionFieldName!"") == field.name>
+    <#if field.versionField>
     @Version
     </#if>
     <#-- 逻辑删除注解 -->
-    <#if (logicDeleteFieldName!"") == field.name>
+    <#if field.logicDeleteField>
     @TableLogic
     </#if>
     private ${field.propertyType} ${field.propertyName};
@@ -130,7 +128,7 @@ public class ${entity} implements Serializable {
 </#if>
 <#if activeRecord>
     @Override
-    protected Serializable pkVal() {
+    public Serializable pkVal() {
     <#if keyPropertyName??>
         return this.${keyPropertyName};
     <#else>
