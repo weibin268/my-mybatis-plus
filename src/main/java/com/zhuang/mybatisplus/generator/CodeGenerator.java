@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.generator.FastAutoGenerator;
 import com.baomidou.mybatisplus.generator.config.GlobalConfig;
 import com.baomidou.mybatisplus.generator.config.OutputFile;
 import com.baomidou.mybatisplus.generator.config.TemplateType;
+import com.baomidou.mybatisplus.generator.config.rules.DateType;
 import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -47,6 +48,9 @@ public class CodeGenerator {
                     }
                     if (!StringUtils.isEmpty(config.getOutputDir())) {
                         builder.outputDir(config.getOutputDir());
+                    }
+                    if (config.getDateType() != null) {
+                        builder.dateType(config.getDateType());
                     }
                 })
                 .packageConfig(builder -> {
@@ -104,5 +108,6 @@ public class CodeGenerator {
         private Boolean lombok = true;
         private String superMapperClass = "com.zhuang.mybatisplus.base.BaseMapper";
         private String superServiceClass = "com.zhuang.mybatisplus.base.ServiceMapper";
+        private DateType dateType = DateType.ONLY_DATE;
     }
 }
