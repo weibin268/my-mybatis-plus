@@ -62,6 +62,7 @@ public class CodeGenerator {
                     if (!StringUtils.isEmpty(config.getMapperXmlDir())) {
                         builder.pathInfo(Collections.singletonMap(OutputFile.mapperXml, config.getMapperXmlDir()));
                     }
+                    // Mapper XML包名
                     builder.xml("mapper");
                 })
                 .strategyConfig(builder -> {
@@ -80,6 +81,7 @@ public class CodeGenerator {
                     if (!StringUtils.isEmpty(config.getSuperServiceClass())) {
                         builder.serviceBuilder().superServiceClass(config.getSuperServiceClass());
                     }
+                    // 定义Service文件名
                     builder.serviceBuilder().convertServiceFileName((entityName -> entityName + "Service"));
                 })
                 .injectionConfig(builder -> {
@@ -87,6 +89,7 @@ public class CodeGenerator {
                 })
                 .templateEngine(new FreemarkerTemplateEngine())
                 .templateConfig(builder -> {
+                    // 禁用ServiceImp模板
                     builder.disable(TemplateType.SERVICEIMPL);
                 });
         fastAutoGenerator.execute();
