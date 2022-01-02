@@ -1,16 +1,24 @@
 package com.zhuang.mybatisplus.generator;
 
+import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.generator.FastAutoGenerator;
+import com.baomidou.mybatisplus.generator.config.DataSourceConfig;
+import com.baomidou.mybatisplus.generator.config.GlobalConfig;
 import com.baomidou.mybatisplus.generator.config.OutputFile;
 import com.baomidou.mybatisplus.generator.config.TemplateType;
+import com.baomidou.mybatisplus.generator.config.converts.SqlServerTypeConvert;
 import com.baomidou.mybatisplus.generator.config.rules.DateType;
+import com.baomidou.mybatisplus.generator.config.rules.IColumnType;
 import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
 import lombok.Data;
 import lombok.experimental.Accessors;
 import org.springframework.util.StringUtils;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.function.Consumer;
+
+import static com.baomidou.mybatisplus.generator.config.rules.DbColumnType.BIG_DECIMAL;
 
 public class CodeGenerator {
 
@@ -18,7 +26,9 @@ public class CodeGenerator {
     private final Config config;
 
     public CodeGenerator(String url, String username, String password) {
-        fastAutoGenerator = FastAutoGenerator.create(url, username, password);
+        DataSourceConfig.Builder dataSourceConfigBuilder = new DataSourceConfig.Builder(url, username, password);
+        initDataSourceConfig(dataSourceConfigBuilder);
+        fastAutoGenerator = FastAutoGenerator.create(dataSourceConfigBuilder);
         config = new Config();
     }
 
@@ -93,6 +103,21 @@ public class CodeGenerator {
                     builder.disable(TemplateType.SERVICEIMPL);
                 });
         fastAutoGenerator.execute();
+    }
+
+    private void initDataSourceConfig(DataSourceConfig.Builder dataSourceConfigBuilder) {
+        DataSourceConfig dataSourceConfig = dataSourceConfigBuilder.build();
+        if (dataSourceConfig.getDbType() == DbType.SQL_SERVER) {
+            dataSourceConfigBuilder.typeConvert(new SqlServerTypeConvert() {
+                @Override
+                public IColumnType processTypeConvert(GlobalConfig config, String fieldType) {
+                    if (Arrays.asList("decimal", "numeric").contains(fieldType)) {
+                        return BIG_DECIMAL;
+                    }
+                    return super.processTypeConvert(config, fieldType);
+                }
+            });
+        }
     }
 
     @Data
