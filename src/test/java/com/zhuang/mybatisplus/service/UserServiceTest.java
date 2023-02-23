@@ -14,6 +14,7 @@ public class UserServiceTest extends MyMybatisPlusApplicationTest {
     public void test() {
         User user = userService.getMapper().getCurrentUser();
         System.out.println(user);
+        System.out.println(userService.getTableName());
     }
 
 }
