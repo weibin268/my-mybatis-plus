@@ -109,6 +109,11 @@
             <version>3.5.1</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>dynamic-datasource-spring-boot-starter</artifactId>
+            <version>4.1.2</version>
+        </dependency>
         <!--end mybatis-plus-->
         <dependency>
             <groupId>org.freemarker</groupId>
