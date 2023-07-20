@@ -14,12 +14,12 @@ spring:
           driverClassName: com.mysql.jdbc.Driver
           url: jdbc:mysql://192.168.1.133:3306/upms?useSSL=false&useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true
           username: root
-          password: Gd_demo
+          password: 123456
         slave1:
           driverClassName: com.mysql.jdbc.Driver
           url: jdbc:mysql://192.168.1.133:3306/test01?useSSL=false&useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true
           username: root
-          password: Gd_demo
+          password: 123456
 logging:
   level:
     com.zhuang.mybatisplus: debug
