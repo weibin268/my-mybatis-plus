@@ -1,0 +1,9 @@
+spring:
+  datasource:
+    dynamic:
+      druid:
+        wall:
+          # 禁止语法检查
+          strict-syntax-check: false
+          # 允许执行多条语句
+          multi-statement-allow: true
