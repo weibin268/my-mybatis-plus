@@ -17,8 +17,13 @@ import java.util.List;
 public class UserService extends BaseService<UserMapper, User> {
 
     public List<User> getAllList() {
-        List<User> list = DynamicDataSourceUtils.execute("master", () -> list(null));
+        List<User> list = DynamicDataSourceUtils.execute("slave1", () -> list(null));
         return list;
     }
 
+    @DS("#ds")
+    public List<User> getAllListByDs(String ds) {
+        List<User> list = list(null);
+        return list;
+    }
 }
