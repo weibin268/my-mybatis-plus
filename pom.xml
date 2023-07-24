@@ -133,6 +133,13 @@
             <version>8.4.1.jre8</version>
             <scope>test</scope>
         </dependency>
+        <!--my-data-->
+        <dependency>
+            <groupId>com.github.weibin268</groupId>
+            <artifactId>my-util</artifactId>
+            <version>1.2.0</version>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 
     <dependencyManagement>

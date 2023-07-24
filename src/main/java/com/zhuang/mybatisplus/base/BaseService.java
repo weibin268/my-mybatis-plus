@@ -29,4 +29,24 @@ public abstract class BaseService<Mapper extends BaseMapper<Entity>, Entity> ext
         return (Class<Entity>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[1];
     }
 
+    public int countByTableName(String tableName) {
+        return mapper.countByTableName(tableName);
+    }
+
+    public boolean existsByTableName(String tableName) {
+        int count = mapper.existsByTableName(tableName);
+        return count > 0 ? true : false;
+    }
+
+    public int dropByTableName(String tableName) {
+        try {
+            boolean exists = existsByTableName(tableName);
+            if (exists) return 0;
+            return mapper.dropByTableName(tableName);
+        } catch (Exception e) {
+            log.error("dropByTableName fail!", e);
+        }
+        return 0;
+    }
+
 }
