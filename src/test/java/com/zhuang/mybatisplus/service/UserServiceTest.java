@@ -27,7 +27,7 @@ public class UserServiceTest extends MyMybatisPlusApplicationTest {
 
     @Test
     public void getAllListByDs() {
-        List<User> allList = userService.getAllListByDs("slave1");
+        List<User> allList = userService.getAllListByDs("dameng");
         System.out.println(allList);
     }
 }

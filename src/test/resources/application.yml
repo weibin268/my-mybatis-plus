@@ -20,6 +20,11 @@ spring:
           url: jdbc:mysql://192.168.1.133:3306/test01?useSSL=false&useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true
           username: root
           password: Gd_demo
+        dameng:
+          driverClassName: dm.jdbc.driver.DmDriver
+          url: jdbc:dm://192.168.3.125:5236/test
+          username: SYSDBA
+          password: SYSDBA001
 logging:
   level:
     com.zhuang.mybatisplus: debug
