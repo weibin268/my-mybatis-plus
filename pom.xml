@@ -139,6 +139,7 @@
             <groupId>com.dameng</groupId>
             <artifactId>DmJdbcDriver18</artifactId>
             <version>8.1.3.62</version>
+            <scope>test</scope>
         </dependency>
         <!--end jdbc-->
 
