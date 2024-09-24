@@ -2,6 +2,7 @@ package com.zhuang.mybatisplus.service;
 
 import com.baomidou.dynamic.datasource.annotation.DS;
 import com.baomidou.dynamic.datasource.toolkit.DynamicDataSourceContextHolder;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.zhuang.mybatisplus.base.BaseService;
 import com.zhuang.mybatisplus.entity.User;
 import com.zhuang.mybatisplus.mapper.UserMapper;
@@ -25,5 +26,9 @@ public class UserService extends BaseService<UserMapper, User> {
     public List<User> getAllListByDs(String ds) {
         List<User> list = list(null);
         return list;
+    }
+
+    IPage<User> selectPageVo(IPage<?> page, Integer state) {
+        return getMapper().selectPageVo(page, state);
     }
 }

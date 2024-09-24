@@ -1,6 +1,7 @@
 package com.zhuang.mybatisplus.mapper;
 
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.zhuang.mybatisplus.base.BaseMapper;
 import com.zhuang.mybatisplus.entity.User;
 
@@ -9,4 +10,6 @@ import com.zhuang.mybatisplus.entity.User;
  */
 public interface UserMapper extends BaseMapper<User> {
     User getCurrentUser();
+
+    IPage<User> selectPageVo(IPage<?> page, Integer state);
 }

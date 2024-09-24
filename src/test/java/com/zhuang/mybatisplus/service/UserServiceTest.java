@@ -1,5 +1,7 @@
 package com.zhuang.mybatisplus.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zhuang.mybatisplus.MyMybatisPlusApplicationTest;
 import com.zhuang.mybatisplus.entity.User;
 import org.junit.Test;
@@ -29,5 +31,14 @@ public class UserServiceTest extends MyMybatisPlusApplicationTest {
     public void getAllListByDs() {
         List<User> allList = userService.getAllListByDs("dameng");
         System.out.println(allList);
+    }
+
+    @Test
+    public void selectPageVo() {
+        IPage<User> userPage = new Page<>();
+        userPage.setCurrent(1);
+        userPage.setPages(10);
+        userPage = userService.selectPageVo(userPage, 1);
+        System.out.println(userService);
     }
 }
