@@ -36,6 +36,7 @@ public class MybatisPlusConfig {
      */
     @Bean
     public DatabaseIdProvider databaseIdProvider() {
+        // 厂商标识查看方法 -> DatabaseMetaData.getDatabaseProductName()
         VendorDatabaseIdProvider databaseIdProvider = new VendorDatabaseIdProvider();
         Properties properties = new Properties();
         properties.put("Oracle","oracle");
@@ -43,6 +44,7 @@ public class MybatisPlusConfig {
         properties.setProperty("PostgreSQL", "postgresql");
         properties.setProperty("DB2", "db2");
         properties.setProperty("SQL Server", "sqlserver");
+        properties.setProperty("DM DBMS","dm");
         databaseIdProvider.setProperties(properties);
         return databaseIdProvider;
     }
