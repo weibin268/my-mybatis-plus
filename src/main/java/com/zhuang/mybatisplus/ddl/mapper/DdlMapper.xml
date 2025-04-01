@@ -5,7 +5,14 @@
     <select id="getTableInfoList" resultType="com.zhuang.mybatisplus.ddl.vo.TableInfo">
         <choose>
             <when test="_databaseId=='sqlserver'">
-                SELECT name from sys.tables where type='U' and name like concat(#{prefix},'%')
+                select name
+                from sys.tables
+                where type='U' and name like concat(#{prefix},'%')
+            </when>
+            <when test="_databaseId=='mysql'">
+                select TABLE_NAME as name
+                from information_schema.TABLES
+                where TABLE_SCHEMA = DATABASE() and TABLE_NAME like concat(#{prefix},'%')
             </when>
         </choose>
     </select>
